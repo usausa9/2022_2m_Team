@@ -2,6 +2,7 @@
 #include <vector>
 
 #include"Floor.h"
+#include "Enemy.h"
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "2308_セルフリップ_プロト";
@@ -56,6 +57,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	pos box = { 200,50 };
 
+#pragma region 床
 	Floor floors_[2][3];
 
 	for (int y = 0; y < 2; y++)
@@ -84,6 +86,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 
 	pos selectPos_ = {0,0};
+#pragma endregion
+#pragma region 敵
+	std::vector<Enemy> enemy_;
+	for (int i = 0; i < 3; i++) {
+		Enemy* newEnemy = new Enemy;
+
+		newEnemy->Init({ 300 + (float)200 * i,500 });
+
+		enemy_.push_back(*newEnemy);
+
+		delete newEnemy;
+	}
+#pragma endregion
 
 	/*std::vector<std::vector<FLOAT2>> */
 
@@ -110,6 +125,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
+
+		for (auto& enemy : enemy_) {
+			enemy.Update();
+		}
 
 		if (keys[KEY_INPUT_D] == true &&
 			oldkeys[KEY_INPUT_D] == false)
@@ -181,7 +200,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 描画処理
 		
-
+		//床
 		for (int y = 0; y < 2; y++)
 		{
 			for (int x = 0; x < 3; x++)
@@ -190,10 +209,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			}
 			
 		}
-
-		/*for (std::vector<Floor>& floor : floors_) {
-			floor.at
-		}*/
+		//敵描画
+		for (auto& enemy : enemy_) {
+			enemy.Draw();
+		}
+		
 		
 
 		//---------  ここまでにプログラムを記述  ---------//
