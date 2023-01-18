@@ -95,6 +95,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループ
 	while (true) {
+
+		for (int i = 0; i < 256; i++)
+		{
+			oldkeys[i] = keys[i];
+		}
+		
 		// 最新のキーボード情報だったものは1フレーム前のキーボード情報として保存
 		// 最新のキーボード情報を取得
 		GetHitKeyStateAll(keys);
@@ -108,25 +114,51 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		if (keys[KEY_INPUT_D] == true &&
 			oldkeys[KEY_INPUT_D] == false)
 		{
-			selectPos_.x++;
+			if (selectPos_.x == 2)
+			{
+				selectPos_.x = 0;
+			}
+			else
+			{
+				selectPos_.x++;
+			}
 		}
-
-		if (keys[KEY_INPUT_A] == true &&
+		else if (keys[KEY_INPUT_A] == true &&
 			oldkeys[KEY_INPUT_A] == false)
 		{
-			selectPos_.x--;
+			if (selectPos_.x == 0)
+			{
+				selectPos_.x = 2;
+			}
+			else
+			{
+				selectPos_.x--;
+			}
 		}
 
 		if (keys[KEY_INPUT_W] == true &&
 			oldkeys[KEY_INPUT_W] == false)
 		{
-			selectPos_.y--;
+			if (selectPos_.y == 0)
+			{
+				selectPos_.y = 1;
+			}
+			else
+			{
+				selectPos_.y--;
+			}
 		}
-
-		if (keys[KEY_INPUT_S] == true &&
+		else if (keys[KEY_INPUT_S] == true &&
 			oldkeys[KEY_INPUT_S] == false)
 		{
-			selectPos_.y++;
+			if (selectPos_.y == 1)
+			{
+				selectPos_.y = 0;
+			}
+			else
+			{
+				selectPos_.y++;
+			}
 		}
 		
 
