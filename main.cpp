@@ -1,4 +1,7 @@
 #include "DxLib.h"
+#include <vector>
+
+#include"Floor.h"
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "2308_セルフリップ_プロト";
@@ -44,7 +47,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// 画像などのリソースデータの変数宣言と読み込み
 
-	//てすと
+	
 
 	// ゲームループで使う変数の宣言
 
@@ -52,6 +55,37 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	const int boxSize = 270;
 
 	pos box = { 200,50 };
+
+	Floor floors_[2][3];
+
+	for (int y = 0; y < 2; y++)
+	{
+		for (int x = 0; x < 3; x++)
+		{
+			Floor *newFloor = new Floor;
+			//左上
+			FLOAT2 startPos = {
+				box.x + (x * boxSize),
+				box.y + (y * boxSize)
+			};
+			//右下
+			FLOAT2 endPos = {
+				box.x + ((x + 1) * boxSize) + 70,
+				box.y + ((y + 1) * boxSize) + 70
+			};
+
+			newFloor->Init(startPos, endPos);
+			//床を追加
+			floors_[y][x] = *newFloor;
+
+			delete newFloor;
+		}
+
+	}
+
+	pos selectPos_ = {0,0};
+
+	/*std::vector<std::vector<FLOAT2>> */
 
 	// 最新のキーボード情報用
 	char keys[256] = {0};
@@ -71,18 +105,63 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 
+		if (keys[KEY_INPUT_D] == true &&
+			oldkeys[KEY_INPUT_D] == false)
+		{
+			selectPos_.x++;
+		}
+
+		if (keys[KEY_INPUT_A] == true &&
+			oldkeys[KEY_INPUT_A] == false)
+		{
+			selectPos_.x--;
+		}
+
+		if (keys[KEY_INPUT_W] == true &&
+			oldkeys[KEY_INPUT_W] == false)
+		{
+			selectPos_.y--;
+		}
+
+		if (keys[KEY_INPUT_S] == true &&
+			oldkeys[KEY_INPUT_S] == false)
+		{
+			selectPos_.y++;
+		}
+		
+
+		for (int y = 0; y < 2; y++)
+		{
+			for (int x = 0; x < 3; x++)
+			{
+				if (selectPos_.x == x &&
+					selectPos_.y == y)
+				{
+					floors_[y][x].SetActive(true);
+				}
+				else
+				{
+					floors_[y][x].SetActive(false);
+				}
+			}
+
+		}
 
 		// 描画処理
 		
 
-		for (int i = 0; i < 2; i++)
+		for (int y = 0; y < 2; y++)
 		{
-			for (int j = 0; j < 3; j++)
+			for (int x = 0; x < 3; x++)
 			{
-				DrawBox(box.x + (j * boxSize), box.y + (i * boxSize), box.x + ((j + 1) * boxSize) + 70, box.y + ((i + 1) * boxSize) + 70, cWhite, false);
+				floors_[y][x].Draw();
 			}
 			
 		}
+
+		/*for (std::vector<Floor>& floor : floors_) {
+			floor.at
+		}*/
 		
 
 		//---------  ここまでにプログラムを記述  ---------//
