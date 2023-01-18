@@ -3,6 +3,7 @@
 
 #include"Floor.h"
 #include "Enemy.h"
+#include "FloorManager.h"
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "2308_セルフリップ_プロト";
@@ -13,11 +14,11 @@ const int WIN_WIDTH = 1280;
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 720;
 
-typedef struct pos
-{
-	int x;
-	int y;
-};
+//typedef struct pos
+//{
+//	int x;
+//	int y;
+//};
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
                    _In_ int nCmdShow) {
@@ -58,34 +59,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	pos box = { 200,50 };
 
 #pragma region 床
-	Floor floors_[2][3];
-
-	for (int y = 0; y < 2; y++)
-	{
-		for (int x = 0; x < 3; x++)
-		{
-			Floor *newFloor = new Floor;
-			//左上
-			FLOAT2 startPos = {
-				box.x + (x * boxSize),
-				box.y + (y * boxSize)
-			};
-			//右下
-			FLOAT2 endPos = {
-				box.x + ((x + 1) * boxSize) + 70,
-				box.y + ((y + 1) * boxSize) + 70
-			};
-
-			newFloor->Init(startPos, endPos);
-			//床を追加
-			floors_[y][x] = *newFloor;
-
-			delete newFloor;
-		}
-
-	}
 
 	pos selectPos_ = {0,0};
+
+	FloorManager floorManager_;
+
+	floorManager_.Init();
+
 #pragma endregion
 #pragma region 敵
 	std::vector<Enemy> enemy_;
@@ -100,7 +80,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 #pragma endregion
 
-	/*std::vector<std::vector<FLOAT2>> */
+	floorManager_.Init();
 
 	// 最新のキーボード情報用
 	char keys[256] = {0};
@@ -130,54 +110,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			enemy.Update();
 		}
 #pragma region 移動
-		if (keys[KEY_INPUT_D] == true &&
-			oldkeys[KEY_INPUT_D] == false)
-		{
-			if (selectPos_.x == 2)
-			{
-				selectPos_.x = 0;
-			}
-			else
-			{
-				selectPos_.x++;
-			}
+		if (Input::Key::Triggered(DIK_UP) || Input::Key::Triggered(DIK_W)) {
+			if (activeNum < 3) activeNum += 3;
+			else activeNum -= 3;
 		}
-		else if (keys[KEY_INPUT_A] == true &&
-			oldkeys[KEY_INPUT_A] == false)
-		{
-			if (selectPos_.x == 0)
-			{
-				selectPos_.x = 2;
-			}
-			else
-			{
-				selectPos_.x--;
-			}
+		else if (Input::Key::Triggered(DIK_DOWN) || Input::Key::Triggered(DIK_S)) {
+			if (activeNum < 3) activeNum += 3;
+			else activeNum -= 3;
 		}
 
-		if (keys[KEY_INPUT_W] == true &&
-			oldkeys[KEY_INPUT_W] == false)
-		{
-			if (selectPos_.y == 0)
-			{
-				selectPos_.y = 1;
-			}
-			else
-			{
-				selectPos_.y--;
-			}
+		if (Input::Key::Triggered(DIK_LEFT) || Input::Key::Triggered(DIK_A)) {
+			if (activeNum == 0 || activeNum == 3) activeNum += 2;
+			else activeNum--;
 		}
-		else if (keys[KEY_INPUT_S] == true &&
-			oldkeys[KEY_INPUT_S] == false)
-		{
-			if (selectPos_.y == 1)
-			{
-				selectPos_.y = 0;
-			}
-			else
-			{
-				selectPos_.y++;
-			}
+		else if (Input::Key::Triggered(DIK_RIGHT) || Input::Key::Triggered(DIK_D)) {
+			if (activeNum == 2 || activeNum == 5) activeNum -= 2;
+			else activeNum++;
 		}
 #pragma endregion
 		//決定
@@ -190,47 +138,26 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 					if (selectPos_.x == x &&
 						selectPos_.y == y)
 					{
-						floors_[y][x].SetFloorType(true);
+						//floors_[y][x].SetFloorType(true);
 					}
 				}
 			}
 		}
 		
-
-		for (int y = 0; y < 2; y++)
-		{
-			for (int x = 0; x < 3; x++)
-			{
-				if (selectPos_.x == x &&
-					selectPos_.y == y)
-				{
-					floors_[y][x].SetActive(true);
-				}
-				else
-				{
-					floors_[y][x].SetActive(false);
-				}
-				//床更新
-				floors_[y][x].Update();
-			}
-
-		}
+		floorManager_.Update();
+		
 
 		// 描画処理
 		
 		//床
-		for (int y = 0; y < 2; y++)
-		{
-			for (int x = 0; x < 3; x++)
-			{
-				floors_[y][x].Draw();
-			}
-			
-		}
+		floorManager_.Update();
+		
 		//敵描画
 		for (auto& enemy : enemy_) {
 			enemy.Draw();
 		}
+
+		floorManager_.Draw();
 		
 		
 
@@ -257,3 +184,5 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// 正常終了
 	return 0;
 }
+
+

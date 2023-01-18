@@ -1,4 +1,6 @@
 #include "Floor.h"
+#include <vector>
+
 
 void Floor::Init(FLOAT2 startPos, FLOAT2 endPos)
 {
@@ -39,4 +41,59 @@ void Floor::Draw()
 		endPos_.u,
 		endPos_.v,
 		color, false);
+}
+
+void Floor::Move(std::vector<Enemy> enemy)
+{
+	if (isFlip_) {
+		return;
+	}
+	isFlip_ = true;
+
+	/*FLOAT2 startPos = GetFloorPos_().at(0);
+	FLOAT2 endPos = GetFloorPos_().at(1);*/
+
+	std::vector<FLOAT2> starPos_;
+
+	std::vector<Enemy>& enemy_ = enemy;
+
+	for (int j = 0; j < enemy_.size(); j++) {
+		//回転するオブジェクトの座標
+		FLOAT2 rotObjPos = {
+			enemy_[j].GetPos().u,
+			enemy_[j].GetPos().v
+		};
+
+		if (startPos_.u <= rotObjPos.u &&
+			startPos_.v <= rotObjPos.v &&
+			endPos_.u >= rotObjPos.u &&
+			endPos_.v >= rotObjPos.v)
+		{
+			//選択した床の上にある星を検索
+			starPos_.push_back(rotObjPos);
+		}
+
+	}
+
+	/*std::vector<Floor>& floors_ = FloorManager::GetFloors();*/
+
+	//for (int i = 0; i < 2; i++) {
+	//	FLOAT2 startPos = ;
+	//	FLOAT2 endPos = floors_.at(i).GetFloorPos_().at(1);
+	//	for (FLOAT2& a : starPos_) {
+	//		if (startPos.u <= a.u &&
+	//			startPos.v <= a.v &&
+	//			endPos.u >= a.u &&
+	//			endPos.v >= a.v)
+	//		{
+	//			//選択した床の上にある星を検索
+	//			floors_[i].Move(enemy_);
+	//		}
+	//	}
+	//}
+}
+
+void Floor::FinishMove()
+{
+	isFlip_ = false;
 }

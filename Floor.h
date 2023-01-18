@@ -1,5 +1,7 @@
 #pragma once
 #include "DxLib.h"
+#include "Enemy.h"
+#include <vector>
 class Floor
 {
 public:
@@ -14,11 +16,17 @@ public:
 
 	void SetFloorType(bool type) { isFloorType = type; }
 
+	void Move(std::vector<Enemy> enemy);
+
+	bool GetFlipState() { return isFlip_; }
+	//回転中ですフラグをオフに
+	void FinishMove();
+
 private:
 
 	FLOAT2 startPos_;
 	FLOAT2 endPos_;
-
+	//通常床に戻るタイマー
 	int maxTimer_ = 240;
 	int timer_ = maxTimer_;
 
@@ -27,6 +35,9 @@ private:
 	int color = 0xffffff;
 	//false　通常、true　底なし沼
 	bool isFloorType = false;
+
+	//回転中ですフラグ
+	bool isFlip_;
 
 };
 
