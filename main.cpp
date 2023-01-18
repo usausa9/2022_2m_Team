@@ -125,11 +125,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//---------  ここからプログラムを記述  ----------//
 
 		// 更新処理
-
+		//敵更新
 		for (auto& enemy : enemy_) {
 			enemy.Update();
 		}
-
+#pragma region 移動
 		if (keys[KEY_INPUT_D] == true &&
 			oldkeys[KEY_INPUT_D] == false)
 		{
@@ -179,6 +179,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				selectPos_.y++;
 			}
 		}
+#pragma endregion
+		//決定
+		if (keys[KEY_INPUT_RETURN] == true &&
+			oldkeys[KEY_INPUT_RETURN] == false) {
+			for (int y = 0; y < 2; y++)
+			{
+				for (int x = 0; x < 3; x++)
+				{
+					if (selectPos_.x == x &&
+						selectPos_.y == y)
+					{
+						floors_[y][x].SetFloorType(true);
+					}
+				}
+			}
+		}
 		
 
 		for (int y = 0; y < 2; y++)
@@ -194,6 +210,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				{
 					floors_[y][x].SetActive(false);
 				}
+				//床更新
+				floors_[y][x].Update();
 			}
 
 		}

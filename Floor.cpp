@@ -9,6 +9,14 @@ void Floor::Init(FLOAT2 startPos, FLOAT2 endPos)
 
 void Floor::Update()
 {
+	//À‚É‚È‚Á‚½‚ç
+	if (isFloorType) {
+		if (timer_ > 0)timer_--;
+		else {
+			isFloorType = false;
+			timer_ = maxTimer_;
+		}
+	}
 }
 
 void Floor::Draw()
@@ -18,6 +26,11 @@ void Floor::Draw()
 	}
 	else {
 		color = 0xffffff;
+	}
+
+	if (isFloorType) {
+		color -= 0x500000;
+		color += 0x005000;
 	}
 
 	DrawBox(
