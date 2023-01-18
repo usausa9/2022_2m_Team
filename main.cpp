@@ -9,6 +9,12 @@ const int WIN_WIDTH = 1280;
 // ウィンドウ縦幅
 const int WIN_HEIGHT = 720;
 
+typedef struct pos
+{
+	int x;
+	int y;
+};
+
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine,
                    _In_ int nCmdShow) {
 	// ウィンドウモードに設定
@@ -42,6 +48,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	// ゲームループで使う変数の宣言
 
+	const int cWhite = GetColor(255, 255, 255);
+	const int boxSize = 270;
+
+	pos box = { 200,50 };
 
 	// 最新のキーボード情報用
 	char keys[256] = {0};
@@ -63,6 +73,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 		// 描画処理
+		
+
+		for (int i = 0; i < 2; i++)
+		{
+			for (int j = 0; j < 3; j++)
+			{
+				DrawBox(box.x + (j * boxSize), box.y + (i * boxSize), box.x + ((j + 1) * boxSize) + 70, box.y + ((i + 1) * boxSize) + 70, cWhite, false);
+			}
+			
+		}
+		
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
