@@ -18,6 +18,10 @@ public:
 
 	bool GetIsDown() { return isDown; }
 
+	void SetIsFlip(bool isflip) { isFlip = isflip; }
+
+	bool GetIsFlip() { return isFlip; }
+
 private:
 	FLOAT2 pos_;
 	float length = 32;
@@ -27,6 +31,8 @@ private:
 	bool del = false;
 
 	int color = 0xffff00;
+
+	bool isFlip = false;
 
 };
 

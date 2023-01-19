@@ -87,15 +87,29 @@ void FloorManager::Update(char key[], char oldkey[],std::vector<Enemy>& enemy) {
 						endPos.u >= rotObjPos.u &&
 						endPos.v >= rotObjPos.v)
 					{
-						
-
-						//‘I‘ğ‚µ‚½°‚Ìã‚É‚ ‚é¯‚ğ“|‚·
-						enemy[j].SetIsDown(true);
+						//ˆê‰ñSetDown‚ğ•Ï‚¦‚½‚çˆ—‚ğ’Ê‚ç‚È‚¢‚æ‚¤‚É‚·‚é
+						if (enemy[j].GetIsFlip() == false) {
+							//’¾‚ñ‚Å“ü‚é“r’†‚É’n–Ê‚ğ•ÏX‚³‚ê‚½‚ç
+							if (enemy[j].GetIsDown() == true) {
+								enemy[j].SetIsDown(false);
+								enemy[j].SetDel(true);
+							}
+							//“G‚ğ’¾‚Ü‚¹‚é
+							else {
+								//‘I‘ğ‚µ‚½°‚Ìã‚É‚ ‚é¯‚ğ“|‚·
+								enemy[j].SetIsDown(true);
+							}
+							enemy[j].SetIsFlip(true);
+						}
 					}
 
 				}
 			}
 			f.FinishMove();
+		}
+
+		for (int j = 0; j < enemy.size(); j++) {
+			enemy[j].SetIsFlip(false);
 		}
 	}
 }

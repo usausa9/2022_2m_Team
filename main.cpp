@@ -1,5 +1,6 @@
 #include "DxLib.h"
 #include <vector>
+#include <list>
 
 #include"Floor.h"
 #include "Enemy.h"
@@ -82,6 +83,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 #pragma endregion
 
+#pragma region 敵を出現させるカーソル
+
+	pos cursolPos = {400,400};
+
+	std::vector<pos> popPos_;
+
+#pragma endregion
+
 	// 最新のキーボード情報用
 	char keys[256] = {0};
 
@@ -110,8 +119,39 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			enemy.Update();
 		}
 #pragma region 移動
-		
 
+		if (keys[KEY_INPUT_LEFT] == true) {
+			cursolPos.x -= 5;
+		}
+		if (keys[KEY_INPUT_RIGHT] == true) {
+			cursolPos.x += 5;
+		}
+
+		if (keys[KEY_INPUT_UP] == true) {
+			cursolPos.y -= 5;
+		}
+		if (keys[KEY_INPUT_DOWN] == true) {
+			cursolPos.y += 5;
+		}
+		
+		if (keys[KEY_INPUT_O] == true && oldkeys[KEY_INPUT_O] == false) {
+			popPos_.push_back(cursolPos);
+		}
+
+		if (keys[KEY_INPUT_RETURN] == true &&
+			oldkeys[KEY_INPUT_RETURN] == false) {
+			for (int i = 0; i < popPos_.size(); i++) {
+				Enemy* newEnemy = new Enemy;
+
+				newEnemy->Init({ (float)popPos_[i].x,(float)popPos_[i].y });
+
+				enemy_.push_back(*newEnemy);
+
+				delete newEnemy;
+			}
+
+			popPos_.clear();
+		}
 		
 #pragma endregion
 		
@@ -129,6 +169,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		floorManager_.Draw();
 		
+		DrawCircle(cursolPos.x, cursolPos.y, 5, 0x00ff00, true);
+
+		for (pos pos : popPos_) {
+			DrawCircle(pos.x, pos.y, 5, 0x007000, true);
+		}
 		
 
 		//---------  ここまでにプログラムを記述  ---------//
