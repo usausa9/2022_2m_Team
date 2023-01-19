@@ -14,6 +14,8 @@ public:
 
 	void SetDel(bool flag) { del = flag; }
 
+	bool GetDel() { return del; }
+
 	void SetIsDown(bool flag) { isDown = flag; }
 
 	bool GetIsDown() { return isDown; }

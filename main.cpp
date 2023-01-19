@@ -115,8 +115,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 		//敵更新
-		for (auto& enemy : enemy_) {
+		/*for (auto& enemy : enemy_) {
 			enemy.Update();
+		}*/
+
+		int erasecount = 0;
+		for (auto itr = enemy_.begin(); itr != enemy_.end();) {
+			if (itr->GetDel())
+			{
+				itr = enemy_.erase(itr);
+				erasecount++;
+			}
+			else
+			{
+				itr->Update();
+				itr++;
+			}
 		}
 #pragma region 移動
 
