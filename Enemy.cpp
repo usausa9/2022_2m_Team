@@ -20,7 +20,8 @@ void Enemy::Update()
 			del = true;
 		}
 		else {
-			length -= 0.10f;
+			float speed = 0.2f;
+			length -= speed;
 		}
 	}
 	else {

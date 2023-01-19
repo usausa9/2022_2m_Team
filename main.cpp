@@ -83,7 +83,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		delete newEnemy;
 	}
 
-	int maxPopCoolTime = 100;
+	int maxPopCoolTime = 80;
 	int popCoolTime = maxPopCoolTime;
 	//óêêîê∂ê¨äÌ
 	std::random_device seed_gen;
