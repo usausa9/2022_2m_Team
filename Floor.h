@@ -19,6 +19,7 @@ public:
 	void Move(std::vector<Enemy> enemy);
 
 	bool GetFlipState() { return isFlip_; }
+	void SetFlipState(bool flag) { isFlip_ = flag; }
 	//回転中ですフラグをオフに
 	void FinishMove();
 
@@ -33,7 +34,7 @@ private:
 	FLOAT2 startPos_;
 	FLOAT2 endPos_;
 	//通常床に戻るタイマー
-	int maxTimer_ = 120;
+	int maxTimer_ = 240;
 	int timer_ = maxTimer_;
 
 	bool isActive_ = false;

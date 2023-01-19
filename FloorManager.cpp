@@ -98,6 +98,8 @@ void FloorManager::Update(char key[], char oldkey[], std::vector<Enemy>& enemy) 
 							if (enemy[j].GetIsDown() == true) {
 								enemy[j].SetIsDown(false);
 								enemy[j].SetDel(true);
+
+								//f.Move(enemy);
 							}
 							//“G‚ð’¾‚Ü‚¹‚é
 							else {

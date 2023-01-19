@@ -52,7 +52,8 @@ void Floor::Move(std::vector<Enemy> enemy)
 		return;
 	}
 	isFlip_ = true;
-	isFloorType = true;
+	if (isFloorType == true) isFloorType = false;
+	else if (isFloorType == false)isFloorType = true;
 
 	/*FLOAT2 startPos = GetFloorPos_().at(0);
 	FLOAT2 endPos = GetFloorPos_().at(1);*/
@@ -82,7 +83,7 @@ void Floor::Move(std::vector<Enemy> enemy)
 	std::vector<Floor>& floors_ = FloorManager::GetFloors();
 
 	for (int i = 0; i < floors_.size(); i++) {
-		FLOAT2 startPos = floors_.at(i).GetStartPos();;
+		FLOAT2 startPos = floors_.at(i).GetStartPos();
 		FLOAT2 endPos = floors_.at(i).GetEndPos();
 		for (FLOAT2& a : starPos_) {
 			if (startPos.u <= a.u &&
@@ -92,6 +93,7 @@ void Floor::Move(std::vector<Enemy> enemy)
 			{
 				//ëIëÇµÇΩè∞ÇÃè„Ç…Ç†ÇÈêØÇåüçı
 				floors_[i].Move(enemy_);
+				
 			}
 		}
 	}
