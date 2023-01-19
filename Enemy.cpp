@@ -28,6 +28,10 @@ void Enemy::Update()
 		//ˆÚ“®‚·‚é
 		pos_.u -= 1.5f;
 	}
+
+	if (pos_.u < 0) {
+		del = true;
+	}
 }
 
 void Enemy::Draw()

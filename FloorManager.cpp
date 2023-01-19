@@ -73,6 +73,8 @@ void FloorManager::Update(char key[], char oldkey[], std::vector<Enemy>& enemy) 
 			}
 		}
 
+		
+
 		for (auto& f : floors_)
 		{
 
@@ -99,7 +101,7 @@ void FloorManager::Update(char key[], char oldkey[], std::vector<Enemy>& enemy) 
 								enemy[j].SetIsDown(false);
 								enemy[j].SetDel(true);
 
-								//f.Move(enemy);
+								
 							}
 							//“G‚ð’¾‚Ü‚¹‚é
 							else {
