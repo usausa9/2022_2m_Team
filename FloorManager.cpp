@@ -100,21 +100,35 @@ void FloorManager::Update(char key[], char oldkey[], std::vector<Enemy>& enemy) 
 	}
 
 	if (key[KEY_INPUT_W] == true && oldkey[KEY_INPUT_W] == false) {
-		if (activeNum < 3) activeNum += 3;
-		else activeNum -= 3;
+		if (activeNum == 1) activeNum = 2;
+		else if (activeNum == 2)activeNum = 1;
+		else if (activeNum == 4)activeNum = 5;
+		else if (activeNum == 5)activeNum = 4;
 	}
 	else if (key[KEY_INPUT_S] == true && oldkey[KEY_INPUT_S] == false) {
-		if (activeNum < 3) activeNum += 3;
-		else activeNum -= 3;
+		if (activeNum == 1) activeNum = 2;
+		else if (activeNum == 2)activeNum = 1;
+		else if (activeNum == 4)activeNum = 5;
+		else if (activeNum == 5)activeNum = 4;
 	}
 
 	if (key[KEY_INPUT_A] == true && oldkey[KEY_INPUT_A] == false) {
-		if (activeNum == 0 || activeNum == 3) activeNum += 2;
-		else activeNum--;
+		if (activeNum == 0) activeNum = 6;
+		else if (activeNum == 1) activeNum = 0;
+		else if (activeNum == 2)activeNum = 0;
+		else if (activeNum == 3)activeNum = 1;
+		else if (activeNum == 4)activeNum = 3;
+		else if (activeNum == 5)activeNum = 3;
+		else if (activeNum == 6)activeNum = 4;
 	}
 	else if (key[KEY_INPUT_D] == true && oldkey[KEY_INPUT_D] == false) {
-		if (activeNum == 2 || activeNum == 5) activeNum -= 2;
-		else activeNum++;
+		if (activeNum == 0) activeNum = 1;
+		else if (activeNum == 1) activeNum = 3;
+		else if (activeNum == 2)activeNum = 3;
+		else if (activeNum == 3)activeNum = 4;
+		else if (activeNum == 4)activeNum = 6;
+		else if (activeNum == 5)activeNum = 6;
+		else if (activeNum == 6)activeNum = 0;
 	}
 
 	if (key[KEY_INPUT_SPACE] == true && oldkey[KEY_INPUT_SPACE] == false) {
