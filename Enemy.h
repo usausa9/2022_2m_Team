@@ -24,6 +24,8 @@ public:
 
 	bool GetIsFlip() { return isFlip; }
 
+	static void SetSpeed(float spd) { speed = spd; }
+
 private:
 	FLOAT2 pos_;
 	float length = 32;
@@ -35,6 +37,8 @@ private:
 	int color = 0xffff00;
 
 	bool isFlip = false;
+
+	static float speed;
 
 };
 

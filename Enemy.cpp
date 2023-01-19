@@ -26,7 +26,7 @@ void Enemy::Update()
 	}
 	else {
 		//ˆÚ“®‚·‚é
-		pos_.u -= 1.5f;
+		pos_.u += speed;
 	}
 
 	if (pos_.u < 0) {
@@ -49,3 +49,5 @@ void Enemy::Draw()
 		3,
 		color, true);
 }
+
+float Enemy::speed = -1.5f;

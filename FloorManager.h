@@ -21,6 +21,10 @@ public:
 
 	static std::vector<Floor>& GetFloors() {return floors_;}
 
+	static int GetCombo() { return combo; }
+
+	static int GetComboTimer() { return comboTimer_; }
+
 private:
 	static int boxSize;
 
@@ -29,5 +33,8 @@ private:
 	static std::vector<Floor> floors_;
 
 	static int activeNum;
+
+	static int combo;
+	static int comboTimer_;
 };
 

@@ -171,12 +171,16 @@ void FloorManager::Update(char key[], char oldkey[], std::vector<Enemy>& enemy) 
 								enemy[j].SetIsDown(false);
 								enemy[j].SetDel(true);
 
-								
+								combo++;
+								comboTimer_ = 240;
 							}
 							//“G‚ğ’¾‚Ü‚¹‚é
 							else {
 								//‘I‘ğ‚µ‚½°‚Ìã‚É‚ ‚é¯‚ğ“|‚·
 								enemy[j].SetIsDown(true);
+
+								combo++;
+								comboTimer_ = 240;
 							}
 							enemy[j].SetIsFlip(true);
 						}
@@ -190,6 +194,14 @@ void FloorManager::Update(char key[], char oldkey[], std::vector<Enemy>& enemy) 
 
 		for (int j = 0; j < enemy.size(); j++) {
 			enemy[j].SetIsFlip(false);
+		}
+	}
+	//ƒRƒ“ƒ{‚µ‚Ä‚¢‚é‚Æ‚«
+	if (combo > 0) {
+		if (comboTimer_ > 0) comboTimer_--;
+		else {
+			comboTimer_ = 240;
+			combo = 0;
 		}
 	}
 }
@@ -207,3 +219,6 @@ int FloorManager::boxSize = 270;
 pos FloorManager::box = { 200,50 };
 
 int FloorManager::activeNum;
+
+int FloorManager::combo = 0;
+int FloorManager::comboTimer_ = 240;

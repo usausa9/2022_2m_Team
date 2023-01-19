@@ -204,6 +204,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		
 		floorManager_.Update(keys,oldkeys,enemy_);
 
+		maxPopCoolTime = 80 - FloorManager::GetCombo() * 0.5f;
+		float enemySpeed = -1.5f - FloorManager::GetCombo() * 0.05f;
+		Enemy::SetSpeed(enemySpeed);
 
 		if (popCoolTime > 0)popCoolTime--;
 		else {
@@ -250,6 +253,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		DrawFormatString(0, 80, 0xffffff, "ARROWキー : カーソル位置変更");
 		DrawFormatString(0, 100, 0xffffff, "Pキー : 敵を登録");
 		DrawFormatString(0, 120, 0xffffff, "ENTERキー : 敵を出現");
+
+		DrawFormatString(0, 140, 0xffffff, "combo : %d", FloorManager::GetCombo());
+		DrawFormatString(0, 160, 0xffffff, "comboTimer : %d", FloorManager::GetComboTimer());
 
 		/*for (pos pos : deadEfectPos_) {
 			DrawFormatString(pos.x, pos.y, 0xffffff, "しんだ");
