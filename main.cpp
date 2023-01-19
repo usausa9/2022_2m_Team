@@ -91,6 +91,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 #pragma endregion
 
+#pragma region 死んだ仮エフェクト
+
+	/*std::vector<pos> deadEfectPos_;
+
+	std::vector<int> effecttime_;*/
+
+#pragma endregion
+
 	// 最新のキーボード情報用
 	char keys[256] = {0};
 
@@ -123,6 +131,19 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		for (auto itr = enemy_.begin(); itr != enemy_.end();) {
 			if (itr->GetDel())
 			{
+				////↓↓↓↓↓↓↓↓↓死んだときのエフェクト↓↓↓↓↓↓↓↓
+				//pos* newPos = new pos;
+
+				//newPos->x = (float)itr->GetPos().u;
+				//newPos->y = (float)itr->GetPos().v;
+
+				//deadEfectPos_.push_back(*newPos);
+
+				//delete newPos;
+
+				//effecttime_.push_back(60);
+				////↑↑↑↑↑↑↑↑死んだときのエフェクト↑↑↑↑↑↑↑
+
 				itr = enemy_.erase(itr);
 				erasecount++;
 			}
@@ -132,6 +153,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				itr++;
 			}
 		}
+
+		
 #pragma region 移動
 
 		if (keys[KEY_INPUT_LEFT] == true) {
@@ -197,6 +220,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		DrawFormatString(0, 80, 0xffffff, "ARROWキー : カーソル位置変更");
 		DrawFormatString(0, 100, 0xffffff, "Pキー : 敵を登録");
 		DrawFormatString(0, 120, 0xffffff, "ENTERキー : 敵を出現");
+
+		/*for (pos pos : deadEfectPos_) {
+			DrawFormatString(pos.x, pos.y, 0xffffff, "しんだ");
+		}*/
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

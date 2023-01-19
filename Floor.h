@@ -32,7 +32,7 @@ private:
 	FLOAT2 startPos_;
 	FLOAT2 endPos_;
 	//通常床に戻るタイマー
-	int maxTimer_ = 60;
+	int maxTimer_ = 120;
 	int timer_ = maxTimer_;
 
 	bool isActive_ = false;
