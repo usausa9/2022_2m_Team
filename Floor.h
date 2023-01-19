@@ -8,6 +8,8 @@ public:
 
 	void Init(FLOAT2 startPos, FLOAT2 endPos);
 
+	void Init(FLOAT2 Pos, int size);
+
 	void Update();
 
 	void Draw();

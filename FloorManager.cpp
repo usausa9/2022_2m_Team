@@ -3,29 +3,85 @@
 
 void FloorManager::Init()
 {
-	for (int y = 0; y < 2; y++)
-	{
-		for (int x = 0; x < 3; x++)
-		{
-			Floor* newFloor = new Floor;
-			//ç∂è„
-			FLOAT2 startPos = {
-				box.x + (x * boxSize),
-				box.y + (y * boxSize)
-			};
-			//âEâ∫
-			FLOAT2 endPos = {
-				box.x + ((x + 1) * boxSize) + 70,
-				box.y + ((y + 1) * boxSize) + 70
-			};
+	//for (int y = 0; y < 2; y++)
+	//{
+	//	for (int x = 0; x < 3; x++)
+	//	{
+	//		Floor* newFloor = new Floor;
+	//		//ç∂è„
+	//		FLOAT2 startPos = {
+	//			box.x + (x * boxSize),
+	//			box.y + (y * boxSize)
+	//		};
+	//		//âEâ∫
+	//		FLOAT2 endPos = {
+	//			box.x + ((x + 1) * boxSize) + 70,
+	//			box.y + ((y + 1) * boxSize) + 70
+	//		};
 
-			newFloor->Init(startPos, endPos);
-			//è∞Çí«â¡
-			floors_.push_back(*newFloor);
+	//		newFloor->Init(startPos, endPos);
+	//		//è∞Çí«â¡
+	//		floors_.push_back(*newFloor);
 
-			delete newFloor;
+	//		delete newFloor;
+	//	}
+
+	//}
+
+	for (int i = 0; i < 7; i++) {
+		Floor* newFloor = new Floor;
+		
+		FLOAT2 startPos{};
+		
+
+		if (i == 0) {
+			startPos = {
+				200,
+				720 / 2
+			};
+		}
+		else if (i == 1) {
+			startPos = {
+				400,
+				720 / 2.5f
+			};
+		}
+		else if (i == 2) {
+			startPos = {
+				400,
+				720 / 1.7f
+			};
+		}
+		else if (i == 3) {
+			startPos = {
+				600,
+				720 / 2.f
+			};
+		}
+		else if (i == 4) {
+			startPos = {
+				800,
+				720 / 2.5f
+			};
+		}
+		else if (i == 5) {
+			startPos = {
+				800,
+				720 / 1.7f
+			};
+		}
+		else if (i == 6) {
+			startPos = {
+				1000,
+				720 /2.0f
+			};
 		}
 
+		newFloor->Init(startPos, 135);
+		//è∞Çí«â¡
+		floors_.push_back(*newFloor);
+
+		delete newFloor;
 	}
 }
 

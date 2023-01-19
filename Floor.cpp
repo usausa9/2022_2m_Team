@@ -10,6 +10,16 @@ void Floor::Init(FLOAT2 startPos, FLOAT2 endPos)
 
 }
 
+void Floor::Init(FLOAT2 Pos, int size) {
+
+	startPos_.u = Pos.u - size;
+	startPos_.v = Pos.v - size;
+
+	endPos_.u = Pos.u + size;
+	endPos_.v = Pos.v + size;
+
+}
+
 void Floor::Update()
 {
 	//è¿Ç…Ç»Ç¡ÇΩÇÁ
