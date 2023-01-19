@@ -5,6 +5,7 @@
 #include"Floor.h"
 #include "Enemy.h"
 #include "FloorManager.h"
+#include <random>
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "2308_セルフリップ_プロト";
@@ -81,6 +82,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		delete newEnemy;
 	}
+
+	int maxPopCoolTime = 100;
+	int popCoolTime = maxPopCoolTime;
+	//乱数生成器
+	std::random_device seed_gen;
+	std::mt19937_64 engine(seed_gen());
+
 #pragma endregion
 
 #pragma region 敵を出現させるカーソル
@@ -195,6 +203,28 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		
 		
 		floorManager_.Update(keys,oldkeys,enemy_);
+
+
+		if (popCoolTime > 0)popCoolTime--;
+		else {
+			popCoolTime = maxPopCoolTime;
+			//敵の発生数
+			std::uniform_real_distribution<float> x(1,3);
+
+			int popNum = x(engine);
+
+			for (int i = 0; i < popNum; i++) {
+				std::uniform_real_distribution<float> y(80, 620);
+				
+				Enemy* newEnemy = new Enemy;
+
+				newEnemy->Init({ (float)WIN_WIDTH,y(engine)});
+
+				enemy_.push_back(*newEnemy);
+
+				delete newEnemy;
+			}
+		}
 		
 
 		// 描画処理

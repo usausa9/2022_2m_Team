@@ -29,7 +29,7 @@ void FloorManager::Init()
 	}
 }
 
-void FloorManager::Update(char key[], char oldkey[],std::vector<Enemy>& enemy) {
+void FloorManager::Update(char key[], char oldkey[], std::vector<Enemy>& enemy) {
 	for (auto& floor : floors_) {
 		floor.Update();
 	}
@@ -62,15 +62,20 @@ void FloorManager::Update(char key[], char oldkey[],std::vector<Enemy>& enemy) {
 	}
 
 	if (key[KEY_INPUT_SPACE] == true && oldkey[KEY_INPUT_SPACE] == false) {
+
 		for (Floor& floor : floors_) {
-			if (floor.GetActive()) {
-				floor.Move(enemy);
-				break;
+			//è¿Ç…Ç»Ç¡Ç¡ÇƒÇ¢ÇÈÇ∆Ç´Ç…ëIëÇ≈Ç´Ç»Ç¢
+			if (floor.GetFloorType() == false) {
+				if (floor.GetActive()) {
+					floor.Move(enemy);
+					break;
+				}
 			}
 		}
 
 		for (auto& f : floors_)
 		{
+
 			if (f.GetFlipState())
 			{
 				FLOAT2 startPos = f.GetStartPos();
@@ -106,6 +111,7 @@ void FloorManager::Update(char key[], char oldkey[],std::vector<Enemy>& enemy) {
 				}
 			}
 			f.FinishMove();
+
 		}
 
 		for (int j = 0; j < enemy.size(); j++) {

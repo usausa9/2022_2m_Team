@@ -26,6 +26,7 @@ public:
 	FLOAT2 GetEndPos() { return endPos_; }
 
 	bool GetActive() { return isActive_; }
+	bool GetFloorType() { return isFloorType; }
 
 private:
 

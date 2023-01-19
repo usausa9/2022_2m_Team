@@ -20,12 +20,13 @@ void Enemy::Update()
 			del = true;
 		}
 		else {
-			length -= 0.15f;
+			length -= 0.10f;
 		}
 	}
-
-
-
+	else {
+		//ˆÚ“®‚·‚é
+		pos_.u -= 1.5f;
+	}
 }
 
 void Enemy::Draw()
