@@ -1,6 +1,7 @@
 #pragma once
 #include "Floor.h"
 #include <vector>
+#include "Enemy.h"
 
 typedef struct pos
 {
@@ -14,11 +15,11 @@ public:
 
 	static void Init();
 
-	static void Update();
+	static void Update(char key[], char oldkey[], std::vector<Enemy> enemy);
 
 	static void Draw();
 
-	static std::vector<Floor> GetFloor() {return floors_;}
+	static std::vector<Floor>& GetFloors() {return floors_;}
 
 private:
 	static int boxSize;
@@ -26,5 +27,7 @@ private:
 	static pos box;
 
 	static std::vector<Floor> floors_;
+
+	static int activeNum;
 };
 

@@ -17,4 +17,10 @@ void Enemy::Draw()
 		pos_.u + length,
 		pos_.v + length,
 		0xffff00, false);
+
+	DrawCircle(
+		pos_.u ,
+		pos_.v ,
+		3,
+		0xffff00, true);
 }

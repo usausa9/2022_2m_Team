@@ -60,8 +60,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 #pragma region 床
 
-	pos selectPos_ = {0,0};
-
 	FloorManager floorManager_;
 
 	floorManager_.Init();
@@ -72,15 +70,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	for (int i = 0; i < 3; i++) {
 		Enemy* newEnemy = new Enemy;
 
-		newEnemy->Init({ 300 + (float)200 * i,500 });
+		newEnemy->Init({ 300 + (float)250 * i,500 });
+
+		if (i == 1) {
+			newEnemy->Init({ 300 + (float)250 * i,370 });
+		}
 
 		enemy_.push_back(*newEnemy);
 
 		delete newEnemy;
 	}
 #pragma endregion
-
-	floorManager_.Init();
 
 	// 最新のキーボード情報用
 	char keys[256] = {0};
@@ -110,47 +110,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			enemy.Update();
 		}
 #pragma region 移動
-		if (Input::Key::Triggered(DIK_UP) || Input::Key::Triggered(DIK_W)) {
-			if (activeNum < 3) activeNum += 3;
-			else activeNum -= 3;
-		}
-		else if (Input::Key::Triggered(DIK_DOWN) || Input::Key::Triggered(DIK_S)) {
-			if (activeNum < 3) activeNum += 3;
-			else activeNum -= 3;
-		}
-
-		if (Input::Key::Triggered(DIK_LEFT) || Input::Key::Triggered(DIK_A)) {
-			if (activeNum == 0 || activeNum == 3) activeNum += 2;
-			else activeNum--;
-		}
-		else if (Input::Key::Triggered(DIK_RIGHT) || Input::Key::Triggered(DIK_D)) {
-			if (activeNum == 2 || activeNum == 5) activeNum -= 2;
-			else activeNum++;
-		}
-#pragma endregion
-		//決定
-		if (keys[KEY_INPUT_RETURN] == true &&
-			oldkeys[KEY_INPUT_RETURN] == false) {
-			for (int y = 0; y < 2; y++)
-			{
-				for (int x = 0; x < 3; x++)
-				{
-					if (selectPos_.x == x &&
-						selectPos_.y == y)
-					{
-						//floors_[y][x].SetFloorType(true);
-					}
-				}
-			}
-		}
 		
-		floorManager_.Update();
+
+		
+#pragma endregion
+		
+		
+		floorManager_.Update(keys,oldkeys,enemy_);
 		
 
 		// 描画処理
-		
-		//床
-		floorManager_.Update();
+
 		
 		//敵描画
 		for (auto& enemy : enemy_) {

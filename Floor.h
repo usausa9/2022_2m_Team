@@ -22,12 +22,17 @@ public:
 	//回転中ですフラグをオフに
 	void FinishMove();
 
+	FLOAT2 GetStartPos() { return startPos_; }
+	FLOAT2 GetEndPos() { return endPos_; }
+
+	bool GetActive() { return isActive_; }
+
 private:
 
 	FLOAT2 startPos_;
 	FLOAT2 endPos_;
 	//通常床に戻るタイマー
-	int maxTimer_ = 240;
+	int maxTimer_ = 120;
 	int timer_ = maxTimer_;
 
 	bool isActive_ = false;
@@ -37,7 +42,7 @@ private:
 	bool isFloorType = false;
 
 	//回転中ですフラグ
-	bool isFlip_;
+	bool isFlip_ = false;
 
 };
 
