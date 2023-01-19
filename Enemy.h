@@ -14,11 +14,19 @@ public:
 
 	void SetDel(bool flag) { del = flag; }
 
+	void SetIsDown(bool flag) { isDown = flag; }
+
+	bool GetIsDown() { return isDown; }
+
 private:
 	FLOAT2 pos_;
 	float length = 32;
+	//’¾‚ñ‚Å‚¢‚é
+	bool isDown = false;
 
 	bool del = false;
+
+	int color = 0xffff00;
 
 };
 

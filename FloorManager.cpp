@@ -29,7 +29,7 @@ void FloorManager::Init()
 	}
 }
 
-void FloorManager::Update(char key[], char oldkey[],std::vector<Enemy> enemy) {
+void FloorManager::Update(char key[], char oldkey[],std::vector<Enemy>& enemy) {
 	for (auto& floor : floors_) {
 		floor.Update();
 	}
@@ -87,8 +87,10 @@ void FloorManager::Update(char key[], char oldkey[],std::vector<Enemy> enemy) {
 						endPos.u >= rotObjPos.u &&
 						endPos.v >= rotObjPos.v)
 					{
+						
+
 						//‘I‘ğ‚µ‚½°‚Ìã‚É‚ ‚é¯‚ğ“|‚·
-						enemy[j].SetDel(true);
+						enemy[j].SetIsDown(true);
 					}
 
 				}

@@ -7,6 +7,25 @@ void Enemy::Init(FLOAT2 pos)
 
 void Enemy::Update()
 {
+	if (del) {
+		color = 0xff0000;
+	}
+	else {
+		color = 0xffff00;
+	}
+
+	if (isDown) {
+		if (length <= 0) {
+			
+			del = true;
+		}
+		else {
+			length -= 0.15f;
+		}
+	}
+
+
+
 }
 
 void Enemy::Draw()
@@ -16,11 +35,11 @@ void Enemy::Draw()
 		pos_.v - length,
 		pos_.u + length,
 		pos_.v + length,
-		0xffff00, false);
+		color, false);
 
 	DrawCircle(
-		pos_.u ,
-		pos_.v ,
+		pos_.u,
+		pos_.v,
 		3,
-		0xffff00, true);
+		color, true);
 }

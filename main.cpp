@@ -73,7 +73,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		newEnemy->Init({ 300 + (float)250 * i,500 });
 
 		if (i == 1) {
-			newEnemy->Init({ 300 + (float)250 * i,370 });
+			newEnemy->Init({ 300 + (float)220 * i,370 });
 		}
 
 		enemy_.push_back(*newEnemy);

@@ -15,7 +15,7 @@ public:
 
 	static void Init();
 
-	static void Update(char key[], char oldkey[], std::vector<Enemy> enemy);
+	static void Update(char key[], char oldkey[], std::vector<Enemy>& enemy);
 
 	static void Draw();
 
