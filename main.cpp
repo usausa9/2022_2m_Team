@@ -148,10 +148,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			cursolPos.y += 5;
 		}
 		
-		if (keys[KEY_INPUT_O] == true && oldkeys[KEY_INPUT_O] == false) {
+		//敵を登録する
+		if (keys[KEY_INPUT_P] == true && oldkeys[KEY_INPUT_P] == false) {
 			popPos_.push_back(cursolPos);
 		}
-
+		//敵を出現させる
 		if (keys[KEY_INPUT_RETURN] == true &&
 			oldkeys[KEY_INPUT_RETURN] == false) {
 			for (int i = 0; i < popPos_.size(); i++) {
@@ -186,9 +187,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		DrawCircle(cursolPos.x, cursolPos.y, 5, 0x00ff00, true);
 
 		for (pos pos : popPos_) {
-			DrawCircle(pos.x, pos.y, 5, 0x007000, true);
+			DrawCircle(pos.x, pos.y, 5, 0x00f0f0, true);
 		}
 		
+		DrawFormatString(0, 0, 0xffffff, "WASDキー : パネルを選択");
+		DrawFormatString(0, 20, 0xffffff, "SPACEキー : パネル変化");
+
+		DrawFormatString(0, 60, 0xffffff, "デバッグ操作");
+		DrawFormatString(0, 80, 0xffffff, "ARROWキー : カーソル位置変更");
+		DrawFormatString(0, 100, 0xffffff, "Pキー : 敵を登録");
+		DrawFormatString(0, 120, 0xffffff, "ENTERキー : 敵を出現");
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面
