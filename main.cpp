@@ -72,10 +72,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	for (int i = 0; i < 3; i++) {
 		Enemy* newEnemy = new Enemy;
 
-		newEnemy->Init({ 300 + (float)250 * i,500 });
+		newEnemy->Init({ 300 + (float)250 * i,500 } , 1);
 
 		if (i == 1) {
-			newEnemy->Init({ 300 + (float)220 * i,370 });
+			newEnemy->Init({ 300 + (float)220 * i,370 } , 0);
 		}
 
 		enemy_.push_back(*newEnemy);
@@ -89,6 +89,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	std::random_device seed_gen;
 	std::mt19937_64 engine(seed_gen());
 
+	int popWay_ = 0;
+
 #pragma endregion
 
 #pragma region 敵を出現させるカーソル
@@ -96,14 +98,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	pos cursolPos = {400,400};
 
 	std::vector<pos> popPos_;
-
-#pragma endregion
-
-#pragma region 死んだ仮エフェクト
-
-	/*std::vector<pos> deadEfectPos_;
-
-	std::vector<int> effecttime_;*/
 
 #pragma endregion
 
@@ -139,19 +133,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		for (auto itr = enemy_.begin(); itr != enemy_.end();) {
 			if (itr->GetDel())
 			{
-				////↓↓↓↓↓↓↓↓↓死んだときのエフェクト↓↓↓↓↓↓↓↓
-				//pos* newPos = new pos;
-
-				//newPos->x = (float)itr->GetPos().u;
-				//newPos->y = (float)itr->GetPos().v;
-
-				//deadEfectPos_.push_back(*newPos);
-
-				//delete newPos;
-
-				//effecttime_.push_back(60);
-				////↑↑↑↑↑↑↑↑死んだときのエフェクト↑↑↑↑↑↑↑
-
 				itr = enemy_.erase(itr);
 				erasecount++;
 			}
@@ -189,7 +170,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			for (int i = 0; i < popPos_.size(); i++) {
 				Enemy* newEnemy = new Enemy;
 
-				newEnemy->Init({ (float)popPos_[i].x,(float)popPos_[i].y });
+				newEnemy->Init({ (float)popPos_[i].x,(float)popPos_[i].y } ,popWay_);
 
 				enemy_.push_back(*newEnemy);
 
@@ -198,15 +179,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			popPos_.clear();
 		}
+
+		if (keys[KEY_INPUT_1] == true &&
+			oldkeys[KEY_INPUT_1] == false) {
+			//スポーンする方向
+			popWay_++;
+			if (popWay_ > 3)popWay_ = 0;
+		}
 		
 #pragma endregion
 		
 		
 		floorManager_.Update(keys,oldkeys,enemy_);
 
-		maxPopCoolTime = 80 - FloorManager::GetCombo() * 0.5f;
+		maxPopCoolTime = 80 - FloorManager::GetCombo() * 0.05f;
 		float enemySpeed = -1.5f - FloorManager::GetCombo() * 0.05f;
-		Enemy::SetSpeed(enemySpeed);
+		
 
 		if (popCoolTime > 0)popCoolTime--;
 		else {
@@ -217,12 +205,42 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			int popNum = x(engine);
 
 			for (int i = 0; i < popNum; i++) {
-				std::uniform_real_distribution<float> y(80, 620);
-				
 				Enemy* newEnemy = new Enemy;
 
-				newEnemy->Init({ (float)WIN_WIDTH,y(engine)});
+				float popx = 0;
+				float popy = 0;
+				//右
+				if (popWay_ == 0){
+					popx = WIN_WIDTH;
 
+					std::uniform_real_distribution<float> y(160, 550);
+					popy = y(engine);
+				}
+				//左
+				else if (popWay_ == 1){
+					popx = 0;
+
+					std::uniform_real_distribution<float> y(160, 550);
+					popy = y(engine);
+				}
+				//上
+				else if (popWay_ == 2){
+					std::uniform_real_distribution<float> x(80, 1100);
+					popx = x(engine);
+
+					popy = 0;
+				}
+				//下
+				else if (popWay_ == 3){
+					std::uniform_real_distribution<float> x(80, 1100);
+					popx = x(engine);
+
+					popy = WIN_HEIGHT;
+					
+				}
+
+				newEnemy->Init({ popx,popy }, popWay_);
+				
 				enemy_.push_back(*newEnemy);
 
 				delete newEnemy;
@@ -256,6 +274,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		DrawFormatString(0, 140, 0xffffff, "combo : %d", FloorManager::GetCombo());
 		DrawFormatString(0, 160, 0xffffff, "comboTimer : %d", FloorManager::GetComboTimer());
+
+		DrawFormatString(0, 180, 0xffffff, "1キー : %d", popWay_);
 
 		/*for (pos pos : deadEfectPos_) {
 			DrawFormatString(pos.x, pos.y, 0xffffff, "しんだ");

@@ -31,7 +31,7 @@ void Floor::Update()
 		}
 	}
 
-	
+
 }
 
 void Floor::Draw()
@@ -62,8 +62,11 @@ void Floor::Move(std::vector<Enemy> enemy)
 		return;
 	}
 	isFlip_ = true;
+
+
 	if (isFloorType == true) isFloorType = false;
 	else if (isFloorType == false)isFloorType = true;
+
 
 	/*FLOAT2 startPos = GetFloorPos_().at(0);
 	FLOAT2 endPos = GetFloorPos_().at(1);*/
@@ -103,7 +106,7 @@ void Floor::Move(std::vector<Enemy> enemy)
 			{
 				//ëIëÇµÇΩè∞ÇÃè„Ç…Ç†ÇÈêØÇåüçı
 				floors_[i].Move(enemy_);
-				
+
 			}
 		}
 	}

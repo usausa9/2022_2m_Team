@@ -1,8 +1,10 @@
 #include "Enemy.h"
 
-void Enemy::Init(FLOAT2 pos)
+void Enemy::Init(FLOAT2 pos, int way)
 {
 	pos_ = pos;
+
+	way_ = way;
 }
 
 void Enemy::Update()
@@ -13,20 +15,29 @@ void Enemy::Update()
 	else {
 		color = 0xffff00;
 	}
-
+	//’¾‚ñ‚Å‚¢‚½‚ç
 	if (isDown) {
+		//Š®‘S‚É’¾‚ñ‚¾‚çŽ€‚Ê
 		if (length <= 0) {
-			
 			del = true;
 		}
+		//’¾‚ñ‚Å‚¢‚­
 		else {
 			float speed = 0.2f;
 			length -= speed;
 		}
 	}
+	//’¾‚ñ‚Å‚¢‚È‚©‚Á‚½‚ç
 	else {
 		//ˆÚ“®‚·‚é
-		pos_.u += speed;
+		//‰E
+		if (way_ == 0) pos_.u += speed;
+		//¶
+		else if (way_ == 1)pos_.u -= speed;
+		//ã
+		else if (way_ == 2)pos_.v -= speed;
+		//‰º
+		else if (way_ == 3)pos_.v += speed;
 	}
 
 	if (pos_.u < 0) {
@@ -50,4 +61,3 @@ void Enemy::Draw()
 		color, true);
 }
 
-float Enemy::speed = -1.5f;

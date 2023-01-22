@@ -4,7 +4,7 @@ class Enemy
 {
 public:
 
-	void Init(FLOAT2 pos);
+	void Init(FLOAT2 pos, int way);
 
 	void Update();
 
@@ -24,8 +24,6 @@ public:
 
 	bool GetIsFlip() { return isFlip; }
 
-	static void SetSpeed(float spd) { speed = spd; }
-
 private:
 	FLOAT2 pos_;
 	float length = 32;
@@ -38,7 +36,10 @@ private:
 
 	bool isFlip = false;
 
-	static float speed;
+	float speed = -1.5f;
+	//i‚Ş•ûŒü
+	//0 ‰E, 1 ¶, 2 ã , 3 ‰º
+	int way_;
 
 };
 
