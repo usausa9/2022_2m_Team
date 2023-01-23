@@ -6,6 +6,9 @@
 #include "Enemy.h"
 #include "FloorManager.h"
 #include <random>
+#include "Boss.h"
+#include "EnemyManager.h"
+
 
 // ウィンドウのタイトルに表示する文字列
 const char TITLE[] = "2308_セルフリップ_プロト";
@@ -68,28 +71,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 #pragma endregion
 #pragma region 敵
-	std::vector<Enemy> enemy_;
-	for (int i = 0; i < 3; i++) {
-		Enemy* newEnemy = new Enemy;
-
-		newEnemy->Init({ 300 + (float)250 * i,500 } , 1);
-
-		if (i == 1) {
-			newEnemy->Init({ 300 + (float)220 * i,370 } , 0);
-		}
-
-		enemy_.push_back(*newEnemy);
-
-		delete newEnemy;
-	}
-
-	int maxPopCoolTime = 80;
-	int popCoolTime = maxPopCoolTime;
-	//乱数生成器
-	std::random_device seed_gen;
-	std::mt19937_64 engine(seed_gen());
-
+	
 	int popWay_ = 0;
+
+	EnemyManager enemyManager_;
 
 #pragma endregion
 
@@ -100,6 +85,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	std::vector<pos> popPos_;
 
 #pragma endregion
+
+	
+
+	Boss boss_;
+	boss_.Init();
+
+	//ウェーブ
+	int nowWave_ = 1;
+	int maxWaveTimer = 1200;
+	int waveTimer_ = maxWaveTimer;
 
 	// 最新のキーボード情報用
 	char keys[256] = {0};
@@ -125,23 +120,39 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		// 更新処理
 		//敵更新
-		/*for (auto& enemy : enemy_) {
-			enemy.Update();
-		}*/
-
-		int erasecount = 0;
-		for (auto itr = enemy_.begin(); itr != enemy_.end();) {
-			if (itr->GetDel())
-			{
-				itr = enemy_.erase(itr);
-				erasecount++;
-			}
-			else
-			{
-				itr->Update();
-				itr++;
+		if (nowWave_ < 5) {
+			if (waveTimer_ > 0)waveTimer_--;
+			else {
+				waveTimer_ = maxWaveTimer;
+				//次のウェーブへ
+				nowWave_++;
 			}
 		}
+
+		
+
+		if (nowWave_ == 1) {
+			popWay_ = 0;
+		}
+		else if (nowWave_ == 2) {
+			popWay_ = 1;
+		}
+		else if (nowWave_ == 3) {
+			popWay_ = 2;
+		}
+		else if (nowWave_ == 4) {
+			popWay_ = 3;
+		}
+
+		
+		if (nowWave_ == 5) {
+			boss_.Update();
+		}
+
+
+		enemyManager_.Update();
+
+		enemyManager_.PopEnemyUpdate(popWay_);
 
 		
 #pragma region 移動
@@ -167,15 +178,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//敵を出現させる
 		if (keys[KEY_INPUT_RETURN] == true &&
 			oldkeys[KEY_INPUT_RETURN] == false) {
-			for (int i = 0; i < popPos_.size(); i++) {
-				Enemy* newEnemy = new Enemy;
 
-				newEnemy->Init({ (float)popPos_[i].x,(float)popPos_[i].y } ,popWay_);
-
-				enemy_.push_back(*newEnemy);
-
-				delete newEnemy;
-			}
+			enemyManager_.ADDEnemy(popPos_, popWay_);
 
 			popPos_.clear();
 		}
@@ -190,70 +194,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 #pragma endregion
 		
 		
-		floorManager_.Update(keys,oldkeys,enemy_);
+		floorManager_.Update(keys,oldkeys,enemyManager_.GetEnemy());
 
-		maxPopCoolTime = 20 - FloorManager::GetCombo() * 0.05f;
-		float enemySpeed = -1.5f - FloorManager::GetCombo() * 0.05f;
-		
-
-		if (popCoolTime > 0)popCoolTime--;
-		else {
-			popCoolTime = maxPopCoolTime;
-			//敵の発生数
-			std::uniform_real_distribution<float> x(1,3);
-
-			int popNum = x(engine);
-
-			for (int i = 0; i < popNum; i++) {
-				Enemy* newEnemy = new Enemy;
-
-				float popx = 0;
-				float popy = 0;
-				//右
-				if (popWay_ == 0){
-					popx = WIN_WIDTH;
-
-					std::uniform_real_distribution<float> y(160, 550);
-					popy = y(engine);
-				}
-				//左
-				else if (popWay_ == 1){
-					popx = 0;
-
-					std::uniform_real_distribution<float> y(160, 550);
-					popy = y(engine);
-				}
-				//上
-				else if (popWay_ == 2){
-					std::uniform_real_distribution<float> x(80, 1100);
-					popx = x(engine);
-
-					popy = 0;
-				}
-				//下
-				else if (popWay_ == 3){
-					std::uniform_real_distribution<float> x(80, 1100);
-					popx = x(engine);
-
-					popy = WIN_HEIGHT;
-					
-				}
-
-				newEnemy->Init({ popx,popy }, popWay_);
-				
-				enemy_.push_back(*newEnemy);
-
-				delete newEnemy;
-			}
-		}
 		
 
 		// 描画処理
 
-		
 		//敵描画
-		for (auto& enemy : enemy_) {
-			enemy.Draw();
+		enemyManager_.Draw();
+
+		if (nowWave_ == 5) {
+			boss_.Draw();
 		}
 
 		floorManager_.Draw();
@@ -275,11 +226,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		DrawFormatString(0, 140, 0xffffff, "combo : %d", FloorManager::GetCombo());
 		DrawFormatString(0, 160, 0xffffff, "comboTimer : %d", FloorManager::GetComboTimer());
 
-		DrawFormatString(0, 180, 0xffffff, "1キー : %d", popWay_);
-
-		/*for (pos pos : deadEfectPos_) {
-			DrawFormatString(pos.x, pos.y, 0xffffff, "しんだ");
-		}*/
+		DrawFormatString(0, 180, 0xffffff, "nowWave : %d", nowWave_);
+		DrawFormatString(0, 200, 0xffffff, "timer : %d", waveTimer_);
 
 		//---------  ここまでにプログラムを記述  ---------//
 		// (ダブルバッファ)裏面

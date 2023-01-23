@@ -20,6 +20,8 @@ public:
 
 	void Move(std::vector<Enemy> enemy);
 
+	void Lock() { isLock_ = true; }
+
 	bool GetFlipState() { return isFlip_; }
 	void SetFlipState(bool flag) { isFlip_ = flag; }
 	//回転中ですフラグをオフに
@@ -30,6 +32,8 @@ public:
 
 	bool GetActive() { return isActive_; }
 	bool GetFloorType() { return isFloorType; }
+
+	
 
 private:
 
@@ -47,6 +51,8 @@ private:
 
 	//回転中ですフラグ
 	bool isFlip_ = false;
+	//trueの時変えられない
+	bool isLock_ = false;
 
 };
 

@@ -58,12 +58,9 @@ void Floor::Draw()
 
 void Floor::Move(std::vector<Enemy> enemy)
 {
-	if (isFlip_) {
+	if (isFlip_ || isLock_) {
 		return;
 	}
-	
-
-	
 
 	/*FLOAT2 startPos = GetFloorPos_().at(0);
 	FLOAT2 endPos = GetFloorPos_().at(1);*/
@@ -113,6 +110,7 @@ void Floor::Move(std::vector<Enemy> enemy)
 		}
 	}
 }
+
 
 void Floor::FinishMove()
 {
