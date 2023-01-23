@@ -61,12 +61,9 @@ void Floor::Move(std::vector<Enemy> enemy)
 	if (isFlip_) {
 		return;
 	}
-	isFlip_ = true;
+	
 
-
-	if (isFloorType == true) isFloorType = false;
-	else if (isFloorType == false)isFloorType = true;
-
+	
 
 	/*FLOAT2 startPos = GetFloorPos_().at(0);
 	FLOAT2 endPos = GetFloorPos_().at(1);*/
@@ -90,7 +87,6 @@ void Floor::Move(std::vector<Enemy> enemy)
 			//‘I‘ğ‚µ‚½°‚Ìã‚É‚ ‚é¯‚ğŒŸõ
 			starPos_.push_back(rotObjPos);
 		}
-
 	}
 
 	std::vector<Floor>& floors_ = FloorManager::GetFloors();
@@ -104,6 +100,12 @@ void Floor::Move(std::vector<Enemy> enemy)
 				endPos.u >= a.u &&
 				endPos.v >= a.v)
 			{
+				if (isActive_ && isFlip_ == false) {
+					if (isFloorType == true) isFloorType = false;
+					else if (isFloorType == false)isFloorType = true;
+					isFlip_ = true;
+				}
+				floors_[i].SetActive(true);
 				//‘I‘ğ‚µ‚½°‚Ìã‚É‚ ‚é¯‚ğŒŸõ
 				floors_[i].Move(enemy_);
 

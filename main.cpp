@@ -192,7 +192,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		
 		floorManager_.Update(keys,oldkeys,enemy_);
 
-		maxPopCoolTime = 80 - FloorManager::GetCombo() * 0.05f;
+		maxPopCoolTime = 20 - FloorManager::GetCombo() * 0.05f;
 		float enemySpeed = -1.5f - FloorManager::GetCombo() * 0.05f;
 		
 
