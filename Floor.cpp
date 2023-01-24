@@ -30,8 +30,6 @@ void Floor::Update()
 			timer_ = maxTimer_;
 		}
 	}
-
-
 }
 
 void Floor::Draw()

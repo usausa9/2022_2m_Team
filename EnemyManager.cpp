@@ -30,7 +30,6 @@ void EnemyManager::Draw()
 
 void EnemyManager::PopEnemyUpdate(int popWay)
 {
-
 	maxPopCoolTime = 20 - FloorManager::GetCombo() * 0.05f;
 	float enemySpeed = -1.5f - FloorManager::GetCombo() * 0.05f;
 

@@ -36,7 +36,7 @@ private:
 
 	bool isFlip = false;
 
-	float speed = -1.5f;
+	float speed = -4.0f;
 	//i‚Ş•ûŒü
 	//0 ‰E, 1 ¶, 2 ã , 3 ‰º
 	int way_;

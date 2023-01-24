@@ -23,7 +23,7 @@ void Enemy::Update()
 		}
 		//’¾‚ñ‚Å‚¢‚­
 		else {
-			float speed = 0.2f;
+			float speed = 4.0f;
 			length -= speed;
 		}
 	}
