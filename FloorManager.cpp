@@ -30,9 +30,9 @@ void FloorManager::Init()
 
 	for (int i = 0; i < 7; i++) {
 		Floor* newFloor = new Floor;
-		
+
 		FLOAT2 startPos{};
-		
+
 
 		if (i == 0) {
 			startPos = {
@@ -73,11 +73,11 @@ void FloorManager::Init()
 		else if (i == 6) {
 			startPos = {
 				1000,
-				720 /2.0f
+				720 / 2.0f
 			};
 		}
 
-		newFloor->Init(startPos, 135);
+		newFloor->Init({(startPos.u + 45), startPos.v}, 135);
 		//è∞Çí«â¡
 		floors_.push_back(*newFloor);
 

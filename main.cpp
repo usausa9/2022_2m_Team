@@ -59,9 +59,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// ゲームループで使う変数の宣言
 
 	const int cWhite = GetColor(255, 255, 255);
-	const int boxSize = 270;
-
-	pos box = { 200,50 };
 
 #pragma region 床
 
